@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="media">
+        {% for category in categories %}
+            
+        <div class="media-body">
+            <h1>Catégorie : {{ category.name }}</h1>
+        </div>
+        <a href="{{ path('category_show', { categoryName: category.name }) }}">
+        Voir la liste des films de cette categories
+    </a>
+    </div>
+{% endfor %}
+{% endblock %}

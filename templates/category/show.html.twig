@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+
+
+    {% block body %}
+        <div class="media">
+            {% for program in programs %}
+            <div class="media-body">
+                <h1> {{ program.id }} </h1>
+
+                <h1> {{ program.title }} </h1>
+                <h1> {{ program.synopsis }} </h1>
+                    <a href="{{ path("program_program_listById", { id: program.id }) }}">
+                        Voir la fiche
+                    </a>
+            </div>
+        </div>
+    {% endfor %}
+    
+    {% endblock %}
