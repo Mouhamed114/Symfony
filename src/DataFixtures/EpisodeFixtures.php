@@ -6,10 +6,11 @@ use App\Entity\Episode;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class EpisodeFixtures extends Fixture implements DependentFixtureInterface
 {
-    const EPISODES = [
+   /* const EPISODES = [
         ['title' => 'Black Knight', 'synopsis' => 'En 2071, le monde a été ravagé par la pollution de l\'air. La survie de l\'humanité dépend de livreurs atypiques surnommés les "chevaliers noirs"', 'number' => '1', 'season' => 'season_1'],
         ['title' => 'One piece', 'synopsis' => 'Monkey D.Luffy cherche à devenir le nouveau roi des Pirates et retrouver le fameux OnePiece ! ', 'number' => '2', 'season' => 'season_2'],
         ['title' => 'DemonSlayer', 'synopsis' => 'Tanjiro rejoint les pourfendeurs et part à la recherche des lunes supérieurs pour venger sa famille', 'number' => '3', 'season' => 'season_3'],
@@ -26,6 +27,24 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
             $episode->setSeason($this->getReference($episodeLine['season']));
             $manager->persist($episode);
             $this->addReference('episode' . $episodeLine['title'], $episode);
+        }
+        $manager->flush();
+    } */
+
+    public function load(ObjectManager $manager): void
+    {
+        $faker = Factory::create();
+        foreach (PROGRAMFixtures::PROGRAMS as $program) {
+           for($j = 1; $j<=5; $j++){
+            for ($i = 1; $i <= 12; $i++) {
+                $episode = new Episode();
+                $episode->setNumber($i);
+                $episode->setTitle($faker->year());
+                $episode->setSynopsis($faker->paragraph(3, true));
+                $episode->setSeason($this->getReference('season'. $j.'_' . $program['title']));
+                $manager->persist($episode);
+            }
+        }
         }
         $manager->flush();
     }

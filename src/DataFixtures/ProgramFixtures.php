@@ -27,7 +27,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
                 $program->setYear($movie['year']);
                 $program->setCategory($this->getReference('category_' . $movie['category']));
                 $manager->persist($program);
-                $this->addReference($movie['title'], $program);
+                $this->addReference('program_'.$movie['title'], $program);
             }
             $manager->flush();
         }

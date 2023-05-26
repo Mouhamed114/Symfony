@@ -6,10 +6,11 @@ use App\Entity\Season;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class SeasonFixtures extends Fixture implements DependentFixtureInterface
 {
-    const SEASONS = [
+   /* const SEASONS = [
         ['Number' => '1','Year' => '2019', 'Description' => 'La découverte de baby Yoda!', 'Program' => 'Black Knight'],
         ['Number' => '2','Year' => '2021', 'Description' => 'Baby Yoda s\'appel Grogu et est livré à Luke!', 'Program' => 'One piece'],
         ['Number' => '3','Year' => '2023', 'Description' => 'Le retour des Mandaloriens!', 'Program' => 'DemonSlayer'],
@@ -29,6 +30,23 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
             $this->addReference('season_' . $seasonLine['Number'], $season);
         }
         $manager->flush();
+    }*/
+
+    public function load(ObjectManager $manager): void
+    {
+        $faker = Factory::create();
+        foreach (ProgramFixtures::PROGRAMS as $program) {
+            for ($i = 1; $i <= 5; $i++) {
+                $season = new Season();
+                $season->setNumber($i);
+                $season->setYear($faker->year());
+                $season->setDescription($faker->paragraph(3, true));
+                $season->setProgram($this->getReference('program_' . $program['title']));
+                $this->addReference('season' . $i . '_' . $program['title'], $season);
+                $manager->persist($season);
+            }
+        }
+        $manager->flush();
     }
 
     public function getDependencies()
@@ -37,5 +55,5 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
         return [
           ProgramFixtures::class,
         ];
-    }
+    } 
 }
