@@ -20,6 +20,9 @@
                         <ul>
                             <li>Episode {{ episode.number }} : {{ episode.synopsis }}</li>
                         </ul>
+                        <a href="{{ path('program_episode_show', { program:program.id, season: season.id, episode: episode.id }) }}"">
+        Page detaillée de la saison
+    </a>
                     {% endfor %} 
                
                     
