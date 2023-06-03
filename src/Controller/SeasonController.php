@@ -34,7 +34,7 @@ class SeasonController extends AbstractController
             return $this->redirectToRoute('app_season_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('season/new.html.twig', [
+        return $this->renderForm('season/new.html.twig', [
             'season' => $season,
             'form' => $form,
         ]);
@@ -60,7 +60,7 @@ class SeasonController extends AbstractController
             return $this->redirectToRoute('app_season_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('season/edit.html.twig', [
+        return $this->renderForm('season/edit.html.twig', [
             'season' => $season,
             'form' => $form,
         ]);
